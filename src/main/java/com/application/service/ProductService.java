@@ -1,0 +1,20 @@
+package com.application.service;
+
+import com.application.dto.ProductDto;
+import com.application.exception.BusinessGlobalException;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+public interface ProductService {
+
+    List<ProductDto> getAll();
+
+    ProductDto getByProductId(long manufacturerId);
+
+    List<ProductDto> getByProductName(String manufacturerName);
+
+    ProductDto createOrUpdateData(ProductDto productDto,
+                                  HttpServletRequest request) throws BusinessGlobalException;
+
+}

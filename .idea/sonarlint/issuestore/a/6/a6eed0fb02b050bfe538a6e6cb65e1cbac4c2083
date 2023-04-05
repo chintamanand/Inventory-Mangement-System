@@ -1,0 +1,13 @@
+
+=
+java:S1165""Make this "errorCode" field final.(¾Õüÿÿÿÿ
+9
+java:S1165"#Make this "errMessage" field final.(»€¾ª
+8
+java:S1165"#Make this "statusCode" field final.(“Ï¤}
+F
+java:S1165"$Make this "serviceName" field final.(ª†ÿ¾ýÿÿÿÿ8ÒÎ°©œ0
+;
+java:S1165"%Make this "requestedUrl" field final.(¼¾°
+>
+java:S1165"!Make this "metaInfo" field final.(Øä’™8ŠŠ²©œ0
