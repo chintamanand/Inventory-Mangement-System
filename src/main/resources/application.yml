@@ -13,11 +13,6 @@ spring:
 server:
   port: 8080
 
-external:
-  api1:
-    url: https://www.universal-tutorial.com/api/
-    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJjaGludGFtYW5hbmQ1NkBnbWFpbC5jb20iLCJhcGlfdG9rZW4iOiIyY280YzM5WXo5U3dUQm9yVHRITzNxU05qR2pydzA4UDFiWnp0TUFMNGtnSWpHUnFaazlMZlpraFdfNDFyelZwZ3QwIn0sImV4cCI6MTY1MTQyMTU1NH0.f09v70OgrJjUUFLeP1ggZbp71CWYQKF8yVbUCb0xYCM
-
 app:
-    jwtSecret: ezG1eTFsWBmpNKeU
-    jwtExpirationMs: 86400000
+  jwtSecret: ezG1eTFsWBmpNKeU
+  jwtExpirationMs: 86400000
