@@ -63,6 +63,4 @@ public class StockPurchaseServiceImpl implements StockPurchaseService {
         return (StockPurchaseDto) ObjectUtils.map(stockPurchaseEntity, new StockPurchaseDto());
     }
 
-    //https://www.toptal.com/spring/spring-security-tutorial
-    //https://www.bezkoder.com/angular-spring-boot-jwt-auth/
 }

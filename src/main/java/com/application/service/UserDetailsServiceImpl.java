@@ -13,17 +13,9 @@ import javax.transaction.Transactional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    //https://www.bezkoder.com/spring-boot-jwt-authentication/
-    //https://www.bezkoder.com/angular-spring-boot-jwt-auth/
-    //https://www.bezkoder.com/angular-12-jwt-auth/
-    //https://www.digitalocean.com/community/tutorials/angular-reactive-forms-introduction
-
-    //https://www.bezkoder.com/spring-boot-jwt-authentication/
-
     @Autowired
     UserRepository userRepository;
 
-    //From username, get UserDetails to create an Authentication object
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

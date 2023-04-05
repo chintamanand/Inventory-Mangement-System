@@ -1,6 +1,5 @@
 package com.application.exception;
 
-import com.application.config.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,7 +28,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(new Date(), serverException.getErrorCode(), serverException.getMessage(),
                 serverException.getStatusCode(), locale.getCountry(), serverException.getServiceName(),
                 serverException.getRequestedUrl(), "Hidden for Security Reasons");
-        //Arrays.toString(serverException.getStackTrace()));
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 

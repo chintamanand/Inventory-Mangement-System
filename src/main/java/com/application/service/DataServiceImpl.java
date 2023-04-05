@@ -19,12 +19,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -85,7 +83,8 @@ public class DataServiceImpl implements DataService {
                 }
             }
         } catch (Exception e) {
-            log.info("Error has occurred while parsing the CSV file");
+            throw new ServerException("Error has occurred while parsing the CSV file", Constants.INTERNAL_SERVER,
+                    "data/getCities", Constants.XCEL_SERVICE);
         }
         return masterStateInfo;
     }
@@ -124,42 +123,11 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public String getExternalCountryDetails() {
-        RestTemplate restTemplate = new RestTemplate();
-
-        String accessToken = getExternalAccessToken();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.set("Authorization", "Bearer " + accessToken);
-
-        HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
-
-        String s = restTemplate.postForObject("https://www.universal-tutorial.com/api/countries", httpEntity, String.class);
-
-        return s;
-    }
-
-    private String getExternalAccessToken() {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.set("api-token", "2co4c39Yz9SwTBorTtHO3qSNjGjrw08P1bZztMAL4kgIjGRqZk9LfZkhW_41rzVpgt0");
-        httpHeaders.set("user-email", "chintamanand56@gmail.com");
-
-        HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
-
-        String s = restTemplate.postForObject("https://www.universal-tutorial.com/api/getaccesstoken", httpEntity, String.class);
-
-        return s;
-    }
-
-    @Override
     public ResponseEntity<Resource> generateXcelSheet(String dataType, HttpServletRequest request)
             throws BusinessGlobalException {
         if (dataType == null || dataType.isEmpty()) {
             throw new ServerException("Input DataType is Invalid", Constants.INVALID_INPUT,
-                    request.getRequestURL().toString(), "generateXcelSheet Service");
+                    request.getRequestURL().toString(), Constants.XCEL_SERVICE);
         }
 
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -170,16 +138,16 @@ public class DataServiceImpl implements DataService {
         if (dataType.equalsIgnoreCase("manufacturer")) {
             manufacturerData = manufacturerService.getAll();
             setXcelHeaderRow(ManufacturerDto.class, spreadsheet);
-            setXcelData(ManufacturerDto.class, manufacturerData.size(), spreadsheet, Arrays.asList(manufacturerData));
+            setXcelData(ManufacturerDto.class, manufacturerData.size(), spreadsheet, Collections.singletonList(manufacturerData));
         } else if (dataType.equalsIgnoreCase("product")) {
             productData = productService.getAll();
             setXcelHeaderRow(ProductDto.class, spreadsheet);
-            setXcelData(ProductDto.class, productData.size(), spreadsheet, Arrays.asList(productData));
+            setXcelData(ProductDto.class, productData.size(), spreadsheet, Collections.singletonList(productData));
         } else if (dataType.equalsIgnoreCase("transaction")) {
             // transaction
         } else {
             throw new ServerException("Input DataType is Invalid", Constants.INVALID_INPUT,
-                    request.getRequestURL().toString(), "generateXcelSheet Service");
+                    request.getRequestURL().toString(), Constants.XCEL_SERVICE);
         }
 
         try {
@@ -213,7 +181,7 @@ public class DataServiceImpl implements DataService {
             return responseEntity;
         } catch (Exception e) {
             throw new ServerException("File download service failed", Constants.SERVICE_ERROR,
-                    request.getRequestURL().toString(), "generateXcelSheet Service");
+                    request.getRequestURL().toString(), Constants.XCEL_SERVICE);
         }
 
     }
@@ -233,7 +201,8 @@ public class DataServiceImpl implements DataService {
     private XSSFSheet setXcelData(Class c, int dataSize, XSSFSheet spreadsheet, List<Object> data1) {
         List<Object> data = ((ArrayList) data1.get(0));
         if (data == null || data.isEmpty()) {
-            log.info("Data is empty");
+            throw new ServerException("Invalid Data", Constants.SERVICE_ERROR,
+                    "/data/generateXcel", "Setting Xcel Data");
         }
 
         for (int rowNo = 0; rowNo < dataSize; rowNo++) {
@@ -243,6 +212,10 @@ public class DataServiceImpl implements DataService {
 
                 Field[] fields = c.getDeclaredFields();
                 try {
+                    if (data.get(rowNo) == null) {
+                        throw new ServerException("Invalid Row Data", Constants.SERVICE_ERROR,
+                                "/data/generateXcel", "Setting Xcel Data");
+                    }
                     if (data.get(rowNo) instanceof ManufacturerDto) {
                         ManufacturerDto manufacturerDto = (ManufacturerDto) data.get(rowNo);
                         Field field = ManufacturerDto.class.getDeclaredField(fields[cellNo + 1].getName());
@@ -255,8 +228,8 @@ public class DataServiceImpl implements DataService {
                         cell.setCellValue(field.get(productDto).toString());
                     }
                 } catch (Exception e) {
-                    /*throw new ServerException("File download service failed", Constants.SERVICE_ERROR,
-                            "/data/generateXcel", "generateXcelSheet Service");*/
+                    throw new ServerException("Generating Xcel Service failed", Constants.SERVICE_ERROR,
+                            "/data/generateXcel", "setXcelData Method");
                 }
 
             }

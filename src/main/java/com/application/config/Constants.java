@@ -11,6 +11,7 @@ public class Constants {
     public static final String ROLE_NOT_ACTIVE = "Role Not Active";
     public static final String REGISTER_USER_METHOD = "RegisterUser()";
     public static final String PLACE_ORDER_METHOD = "PlaceOrder Service";
+    public static final String XCEL_SERVICE = "generateXcelSheet Service";
 
     public enum ERole {
         ROLE_USER,
