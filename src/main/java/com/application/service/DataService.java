@@ -7,6 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 public interface DataService {

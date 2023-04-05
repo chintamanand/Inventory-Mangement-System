@@ -33,7 +33,7 @@ public class DataController {
 
     @GetMapping(path = "/getCities")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public List<CityDto> getCityDetails(@RequestParam("stateName") String stateName){
+    public List<CityDto> getCityDetails(@RequestParam("stateName") String stateName) {
         return dataService.getCities(stateName);
     }
 
@@ -49,9 +49,5 @@ public class DataController {
     public List<ProductCategoryDto> getCategory() {
         return productCategoryService.getProductCategories();
     }
-
-
-    //purchase & sale of stocks
-    //invoice generation using the thyemleaf & FTL file
-    //message
+    
 }

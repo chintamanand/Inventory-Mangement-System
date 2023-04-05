@@ -43,7 +43,7 @@ public class DataServiceImpl implements DataService {
     private final ProductService productService;
     Comparator<StateDto> compareByStateName = Comparator.comparing(StateDto::getStateName);
     private List<StateDto> masterStateInfo = new ArrayList<>();
-    private List<StateDto> indviStateDetails = new ArrayList<>();
+    private List<StateDto> indivStateDetails = new ArrayList<>();
 
     public DataServiceImpl(ManufacturerService manufacturerService, ProductService productService) {
         this.manufacturerService = manufacturerService;
@@ -57,19 +57,17 @@ public class DataServiceImpl implements DataService {
             masterStateInfo = parseCsvFile();
             return sortStateList();
         } else {
-            if (indviStateDetails.isEmpty()) {
+            if (indivStateDetails.isEmpty()) {
                 return sortStateList();
             } else {
-                return indviStateDetails;
+                return indivStateDetails;
             }
         }
     }
 
     private List<StateDto> parseCsvFile() {
         Resource resource = new ClassPathResource("cities.csv");
-        try {
-            CSVParser csvParser = new CSVParser(new FileReader(resource.getFile()), CSVFormat.DEFAULT
-                    .withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
+        try (CSVParser csvParser = new CSVParser(new FileReader(resource.getFile()), CSVFormat.DEFAULT)) {
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
@@ -96,9 +94,9 @@ public class DataServiceImpl implements DataService {
                 stateSet.put(stateDto.getStateName(), stateDto);
             }
         }
-        indviStateDetails = new ArrayList<>(stateSet.values());
-        indviStateDetails.sort(compareByStateName);
-        return indviStateDetails;
+        indivStateDetails = new ArrayList<>(stateSet.values());
+        indivStateDetails.sort(compareByStateName);
+        return indivStateDetails;
     }
 
     @Override
@@ -135,15 +133,15 @@ public class DataServiceImpl implements DataService {
         List<ManufacturerDto> manufacturerData;
         List<ProductDto> productData;
 
-        if (dataType.equalsIgnoreCase("manufacturer")) {
+        if (dataType.equalsIgnoreCase("Manufacturer")) {
             manufacturerData = manufacturerService.getAll();
             setXcelHeaderRow(ManufacturerDto.class, spreadsheet);
             setXcelData(ManufacturerDto.class, manufacturerData.size(), spreadsheet, Collections.singletonList(manufacturerData));
-        } else if (dataType.equalsIgnoreCase("product")) {
+        } else if (dataType.equalsIgnoreCase("Product")) {
             productData = productService.getAll();
             setXcelHeaderRow(ProductDto.class, spreadsheet);
             setXcelData(ProductDto.class, productData.size(), spreadsheet, Collections.singletonList(productData));
-        } else if (dataType.equalsIgnoreCase("transaction")) {
+        } else if (dataType.equalsIgnoreCase("Transaction")) {
             // transaction
         } else {
             throw new ServerException("Input DataType is Invalid", Constants.INVALID_INPUT,
@@ -199,7 +197,7 @@ public class DataServiceImpl implements DataService {
     }
 
     private XSSFSheet setXcelData(Class c, int dataSize, XSSFSheet spreadsheet, List<Object> data1) {
-        List<Object> data = ((ArrayList) data1.get(0));
+        ArrayList data = (ArrayList) data1.get(0);
         if (data == null || data.isEmpty()) {
             throw new ServerException("Invalid Data", Constants.SERVICE_ERROR,
                     "/data/generateXcel", "Setting Xcel Data");
