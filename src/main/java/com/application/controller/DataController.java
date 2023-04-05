@@ -49,5 +49,5 @@ public class DataController {
     public List<ProductCategoryDto> getCategory() {
         return productCategoryService.getProductCategories();
     }
-    
+
 }

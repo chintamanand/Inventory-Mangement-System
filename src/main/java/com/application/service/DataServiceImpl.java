@@ -67,7 +67,9 @@ public class DataServiceImpl implements DataService {
 
     private List<StateDto> parseCsvFile() {
         Resource resource = new ClassPathResource("cities.csv");
-        try (CSVParser csvParser = new CSVParser(new FileReader(resource.getFile()), CSVFormat.DEFAULT)) {
+        try {
+            CSVParser csvParser = new CSVParser(new FileReader(resource.getFile()), CSVFormat.DEFAULT
+                    .withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
@@ -80,9 +82,11 @@ public class DataServiceImpl implements DataService {
                     masterStateInfo.add(stateDto);
                 }
             }
+            csvParser.close();
         } catch (Exception e) {
-            throw new ServerException("Error has occurred while parsing the CSV file", Constants.INTERNAL_SERVER,
-                    "data/getCities", Constants.XCEL_SERVICE);
+            log.info("Error has occurred while parsing the CSV file");
+            /*throw new ServerException("Error has occurred while parsing the CSV file", Constants.INTERNAL_SERVER,
+                    "data/getCities", Constants.XCEL_SERVICE);*/
         }
         return masterStateInfo;
     }
