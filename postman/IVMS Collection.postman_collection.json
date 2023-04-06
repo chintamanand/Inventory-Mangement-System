@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "6a43b23a-cd4d-4be1-9dff-8cdb4478f5bf",
+		"name": "IVMS Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get State Details",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQiLCJpYXQiOjE2ODA3MTYyNDgsImV4cCI6MTY4MDgwMjY0OH0.oSrQ4GwcCRwBM_649dHabvgsgovIxsPJiATc7xAILEAPObHgkf8OPxV_nbZs3QdAg-TBzUar9qVs0foTig5rbQ",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/data/getStates?countryName=India",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"data",
+						"getStates"
+					],
+					"query": [
+						{
+							"key": "countryName",
+							"value": "India"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Manufacturer Details",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQiLCJpYXQiOjE2Nzc5MzE1MzYsImV4cCI6MTY3ODAxNzkzNn0.CN7p_16tczh4xi8B2yfqA1D632V3RL5vwUd6gobG8ZX0g0PnXaJEYDI24dMExK2T_YRT5ZGNA-UkM4qT0SgLQA",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/manufacturer/get/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"manufacturer",
+						"get",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product Details",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQiLCJpYXQiOjE2ODA3MTYyNDgsImV4cCI6MTY4MDgwMjY0OH0.oSrQ4GwcCRwBM_649dHabvgsgovIxsPJiATc7xAILEAPObHgkf8OPxV_nbZs3QdAg-TBzUar9qVs0foTig5rbQ",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/products/get",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get City Details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/data/getCities?stateName=Andhra Pradesh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"data",
+						"getCities"
+					],
+					"query": [
+						{
+							"key": "stateName",
+							"value": "Andhra Pradesh"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Xcel Report",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/data/generateXcel/manufacturer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"data",
+						"generateXcel",
+						"manufacturer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"ChintamNikhil\",\r\n    \"password\": \"Test@1234\",\r\n    \"email\": \"chintamnikhil@gmail.com\",\r\n    \"role\":[\"admin\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"ChintamAnand\",\r\n    \"password\": \"test@1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
