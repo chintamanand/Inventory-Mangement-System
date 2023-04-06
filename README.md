@@ -1,2 +1,2 @@
 # Inventory-Mangement-System
- Developed Application Using Java, Spring framework, Angular and MySQ:
+ Developed application using Java, Spring framework, Angular and MySQL
