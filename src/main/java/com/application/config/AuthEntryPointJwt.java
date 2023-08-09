@@ -12,11 +12,14 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Map;
 
 @Log4j2
 @Component
-public class AuthEntryPointJwt implements AuthenticationEntryPoint {
+public class AuthEntryPointJwt implements AuthenticationEntryPoint, Serializable {
+
+    private static final long serialVersionUID = -7858869558953243875L;
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,

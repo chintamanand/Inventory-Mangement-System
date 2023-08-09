@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/ivms
     username: root
-    password: root
+    password: admin
     driverClassName: com.mysql.jdbc.Driver
   jpa:
     generate-ddl: true
