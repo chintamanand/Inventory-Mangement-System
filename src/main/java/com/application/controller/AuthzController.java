@@ -57,7 +57,7 @@ public class AuthzController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
                                               HttpServletRequest request) {
-        log.info("Entered signIn Method()");
+        log.info("Entered into signIn Method()");
         log.info("Login Request body -- " + loginRequest.toString());
         Authentication authentication;
         try {
@@ -68,14 +68,14 @@ public class AuthzController {
                     request.getRequestURL().toString(), "authenticateUser()");
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        String jwtToken = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
+        return ResponseEntity.ok(new JwtResponse(jwtToken, userDetails.getId(), userDetails.getUsername(),
                 userDetails.getEmail(), roles));
     }
 
@@ -84,7 +84,7 @@ public class AuthzController {
                                           HttpServletRequest request) {
         log.info("Entered RegisterUser() method");
         log.info("SignUpRequest -- " + signUpRequest.toString());
-        log.info("Http Servelet Request -- " + request.toString());
+        log.info("Http Servlet Request -- " + request.toString());
         if (Boolean.TRUE.equals(userRepository.existsByUsername(signUpRequest.getUsername()))) {
             return ResponseEntity.badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));

@@ -51,21 +51,9 @@ public class ManufacturerEntity implements Serializable {
     private String state;
 
     @Column
-    private String token;
-
-    @Column
     private String privilegeCode;
 
     @Column
-    private boolean accountVerified;
-
-    @Column
-    private String password;
-
-    @Column
     private boolean enabled;
-
-    @Column
-    private boolean tokenExpired;
 
 }

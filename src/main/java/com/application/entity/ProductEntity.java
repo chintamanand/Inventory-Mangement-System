@@ -13,7 +13,6 @@ public class ProductEntity implements Serializable {
 
     //product info, origin,expiry date,
     //delivery details, serial number, product box numbers
-    //https://material.angular.io/components/table/overview
 
     private static final long serialVersionUID = -2769127035283753892L;
 
@@ -71,21 +70,9 @@ public class ProductEntity implements Serializable {
     private Date lastUpdated;
 
     @Column
-    private String token;
-
-    @Column
     private String privilegeCode;
 
     @Column
-    private boolean accountVerified;
-
-    @Column
-    private String password;
-
-    @Column
     private boolean enabled;
-
-    @Column
-    private boolean tokenExpired;
 
 }

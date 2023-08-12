@@ -105,7 +105,7 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public List<CityDto> getCities(String stateName) {
-        log.info("Entered the getCities method -- " + stateName);
+        log.info("Entered the getCities() method -- " + stateName);
         List<CityDto> cities = new ArrayList<>();
         if (masterStateInfo.isEmpty()) {
             masterStateInfo = getStates("India");
@@ -120,7 +120,7 @@ public class DataServiceImpl implements DataService {
             cities.add(new CityDto(state.getCityId(), state.getCityName()));
         }
 
-        log.info("Leaving the getCities method");
+        log.info("Leaving the getCities() method");
         return cities;
     }
 
@@ -145,8 +145,6 @@ public class DataServiceImpl implements DataService {
             productData = productService.getAll();
             setXcelHeaderRow(ProductDto.class, spreadsheet);
             setXcelData(ProductDto.class, productData.size(), spreadsheet, Collections.singletonList(productData));
-        } else if (dataType.equalsIgnoreCase("Transaction")) {
-            // transaction
         } else {
             throw new ServerException("Input DataType is Invalid", Constants.INVALID_INPUT,
                     request.getRequestURL().toString(), Constants.XCEL_SERVICE);
@@ -218,16 +216,24 @@ public class DataServiceImpl implements DataService {
                         throw new ServerException("Invalid Row Data", Constants.SERVICE_ERROR,
                                 "/data/generateXcel", "Setting Xcel Data");
                     }
-                    if (data.get(rowNo) instanceof ManufacturerDto) {
+                    if (data.get(rowNo) instanceof ManufacturerDto && cellNo < fields.length - 1) {
                         ManufacturerDto manufacturerDto = (ManufacturerDto) data.get(rowNo);
                         Field field = ManufacturerDto.class.getDeclaredField(fields[cellNo + 1].getName());
                         field.setAccessible(true);
-                        cell.setCellValue(field.get(manufacturerDto).toString());
-                    } else if (data.get(rowNo) instanceof ProductDto) {
+                        if (field.get(manufacturerDto) != null) {
+                            cell.setCellValue(field.get(manufacturerDto).toString());
+                        } else {
+                            cell.setCellValue("NA");
+                        }
+                    } else if (data.get(rowNo) instanceof ProductDto && cellNo < fields.length - 1) {
                         ProductDto productDto = (ProductDto) data.get(rowNo);
                         Field field = ProductDto.class.getDeclaredField(fields[cellNo + 1].getName());
                         field.setAccessible(true);
-                        cell.setCellValue(field.get(productDto).toString());
+                        if (field.get(productDto) != null) {
+                            cell.setCellValue(field.get(productDto).toString());
+                        } else {
+                            cell.setCellValue("NA");
+                        }
                     }
                 } catch (Exception e) {
                     throw new ServerException("Generating Xcel Service failed", Constants.SERVICE_ERROR,
