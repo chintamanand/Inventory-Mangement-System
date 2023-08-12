@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6a43b23a-cd4d-4be1-9dff-8cdb4478f5bf",
+		"_postman_id": "4cd01d4c-2cb5-4875-a943-1b7a391168fe",
 		"name": "IVMS Collection",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28999810"
 	},
 	"item": [
 		{
@@ -129,15 +130,22 @@
 			"name": "Generate Xcel Report",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtS2lyYW4iLCJpYXQiOjE2OTE4MTU5MjYsImV4cCI6MTY5MTkwMjMyNn0._pMfYwNi8eYxoJtgOJj5WCt_8vegj8YAqkAJ7PSsxZRSDK9ITpN-7OfJLZLF7U2GKGhhwDjs84Q3RyzDJEmX3g",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/data/generateXcel/manufacturer",
+					"raw": "http://localhost:8080/api/data/generateXcel/manufacturer",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"data",
 						"generateXcel",
 						"manufacturer"
@@ -153,7 +161,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"ChintamNikhil\",\r\n    \"password\": \"Test@1234\",\r\n    \"email\": \"chintamnikhil@gmail.com\",\r\n    \"role\":[\"admin\"]\r\n}",
+					"raw": "{\r\n    \"username\": \"ChintamKiran\",\r\n    \"password\": \"Kiran@1234\",\r\n    \"email\": \"chintamvskiran@gmail.com\",\r\n    \"role\":[\"admin\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
