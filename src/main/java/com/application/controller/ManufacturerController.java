@@ -41,7 +41,7 @@ public class ManufacturerController {
 
     @PostMapping(path = "/create-update")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ManufacturerDto createOrUpdateData(@RequestBody ManufacturerDto manufacturerDto) {
+    public List<ManufacturerDto> createOrUpdateData(@RequestBody ManufacturerDto manufacturerDto) {
         return manufacturerService.createOrUpdateData(manufacturerDto);
     }
 

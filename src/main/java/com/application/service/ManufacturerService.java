@@ -12,5 +12,5 @@ public interface ManufacturerService {
 
     List<ManufacturerDto> getByManufacturerName(String manufacturerName);
 
-    ManufacturerDto createOrUpdateData(ManufacturerDto manufacturerDto);
+    List<ManufacturerDto> createOrUpdateData(ManufacturerDto manufacturerDto);
 }

@@ -16,6 +16,7 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -39,15 +40,15 @@ import java.util.stream.Collectors;
 @Service
 public class DataServiceImpl implements DataService {
 
-    private final ManufacturerService manufacturerService;
-    private final ProductService productService;
+    @Autowired
+    ManufacturerService manufacturerService;
+    @Autowired
+    ProductService productService;
     Comparator<StateDto> compareByStateName = Comparator.comparing(StateDto::getStateName);
     private List<StateDto> masterStateInfo = new ArrayList<>();
     private List<StateDto> indivStateDetails = new ArrayList<>();
 
-    public DataServiceImpl(ManufacturerService manufacturerService, ProductService productService) {
-        this.manufacturerService = manufacturerService;
-        this.productService = productService;
+    public DataServiceImpl() {
     }
 
     @Override
@@ -243,8 +244,10 @@ public class DataServiceImpl implements DataService {
             }
 
         }
-
         return spreadsheet;
     }
 
+    public Boolean isEmptyOrNull(String obj) {
+        return obj == null || obj.isEmpty();
+    }
 }

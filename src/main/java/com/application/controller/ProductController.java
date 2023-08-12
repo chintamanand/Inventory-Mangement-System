@@ -38,7 +38,7 @@ public class ProductController {
 
     @PostMapping(path = "/create-update")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ProductDto createOrUpdateData(@RequestBody ProductDto productDto,
+    public List<ProductDto> createOrUpdateData(@RequestBody ProductDto productDto,
                                          HttpServletRequest request) throws BusinessGlobalException {
         return productService.createOrUpdateData(productDto, request);
     }

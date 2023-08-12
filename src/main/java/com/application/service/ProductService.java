@@ -14,7 +14,7 @@ public interface ProductService {
 
     List<ProductDto> getByProductName(String manufacturerName);
 
-    ProductDto createOrUpdateData(ProductDto productDto,
+    List<ProductDto> createOrUpdateData(ProductDto productDto,
                                   HttpServletRequest request) throws BusinessGlobalException;
 
 }
