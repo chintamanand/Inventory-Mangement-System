@@ -32,46 +32,46 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDto> getAll() {
         List<ProductEntity> entities = productRepo.findAll();
         return entities.stream().map(
-                productEntity -> (ProductDto) ObjectUtils.map(productEntity, new ProductDto()))
+                        productEntity -> (ProductDto) ObjectUtils.map(productEntity, new ProductDto()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public ProductDto getByProductId(long productId) {
         return productRepo.findById(productId).map(
-                productEntity -> (ProductDto) ObjectUtils.map(productEntity, new ProductDto()))
+                        productEntity -> (ProductDto) ObjectUtils.map(productEntity, new ProductDto()))
                 .orElse(null);
     }
 
     @Override
     public List<ProductDto> getByProductName(String productName) {
         return productRepo.findByProductName(productName).stream().map(
-                productEntity -> (ProductDto) ObjectUtils.map(productEntity, new ProductDto()))
+                        productEntity -> (ProductDto) ObjectUtils.map(productEntity, new ProductDto()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ProductDto createOrUpdateData(ProductDto productDto,
-                                         HttpServletRequest request) throws BusinessGlobalException {
+    public List<ProductDto> createOrUpdateData(ProductDto productDto, HttpServletRequest request) throws BusinessGlobalException {
         log.info("Product info received -- " + productDto.toString());
         ManufacturerDto manufacturerDto;
         if (productDto.getManufacturerId() == null) {
-            throw new ServerException("Input Data is Invalid", Constants.INVALID_INPUT,
+            throw new ServerException("Invalid Manufacturer Id", Constants.INVALID_INPUT,
                     request.getRequestURL().toString(), "Product Create Service");
         }
         manufacturerDto = manufacturerService.getByManufacturerId(productDto.getManufacturerId());
         if (manufacturerDto == null) {
-            throw new ServerException("Given ManufacturerId is Not Present", Constants.INVALID_INPUT,
+            throw new ServerException("Given ManufacturerId Not Found", Constants.INVALID_INPUT,
                     request.getRequestURL().toString(), "Product Create Service");
         }
 
+        //if we get the same product twice then we need to update it into single entry only
         productDto.setManufacturerName(manufacturerDto.getManufacturerCompanyName());
         productDto.setTotalCost(productDto.getLandedCost() + productDto.getUnitCost());
         productDto.setTotalWeightOfUnits(productDto.getWeightOfUnit() * productDto.getNoOfUnits());
         productDto.setTotalProductValue(productDto.getTotalCost() * productDto.getTotalWeightOfUnits());
         ProductEntity productEntity = (ProductEntity) ObjectUtils.map(productDto, new ProductEntity());
-        productEntity = productRepo.save(productEntity);
-        return (ProductDto) ObjectUtils.map(productEntity, new ProductDto());
+        productRepo.save(productEntity);
+        return getAll();
     }
 
 }
