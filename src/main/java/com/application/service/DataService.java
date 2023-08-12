@@ -16,8 +16,6 @@ public interface DataService {
 
     List<CityDto> getCities(String stateName);
 
-    //String getExternalCountryDetails();
-
     ResponseEntity<Resource> generateXcelSheet(String dataType, HttpServletRequest request) throws BusinessGlobalException;
 
 }

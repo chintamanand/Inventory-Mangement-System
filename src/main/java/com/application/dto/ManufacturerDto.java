@@ -42,21 +42,9 @@ public class ManufacturerDto implements Serializable {
     private String country;
 
     @JsonIgnore
-    private String token;
-
-    @JsonIgnore
     private String privilegeCode;
 
     @JsonIgnore
-    private boolean accountVerified;
-
-    @JsonIgnore
-    private String password;
-
-    @JsonIgnore
     private boolean enabled;
-
-    @JsonIgnore
-    private boolean tokenExpired;
 
 }
