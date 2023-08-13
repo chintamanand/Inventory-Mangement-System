@@ -51,7 +51,6 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     @Override
     public List<ManufacturerDto> createOrUpdateData(ManufacturerDto manufacturerDto) {
-        //if Id was passed, that id need to verified if it already used or not.
         if (dataService.isEmptyOrNull(manufacturerDto.getManufacturerCompanyName())) {
             throw new ServerException("Pass Valid Company Name", Constants.INTERNAL_SERVER,
                     "/create-update", "createOrUpdateData()");

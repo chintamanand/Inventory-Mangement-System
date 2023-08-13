@@ -63,7 +63,7 @@ public class AuthzServiceImpl implements AuthzService {
                         new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
             }
         } catch (Exception e) {
-            throw new ServerException("InCorrect UserName and Password", Constants.INTERNAL_SERVER,
+            throw new ServerException("Incorrect UserName and Password", Constants.INTERNAL_SERVER,
                     fullRequest.getRequestURL().toString(), "authenticateUser()");
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
