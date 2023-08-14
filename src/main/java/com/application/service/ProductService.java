@@ -17,4 +17,6 @@ public interface ProductService {
     List<ProductDto> createOrUpdateData(ProductDto productDto,
                                   HttpServletRequest request) throws BusinessGlobalException;
 
+    List<ProductDto> deleteIdById(String id);
+
 }
