@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> createOrUpdateData(ProductDto productDto, HttpServletRequest request) throws BusinessGlobalException {
-        log.info("Product info received -- " + productDto.toString());
+        log.info("Product info received :: " + productDto.toString());
         ManufacturerDto manufacturerDto;
         if (productDto.getManufacturerId() == null) {
             throw new ServerException("Invalid Manufacturer Id", Constants.INVALID_INPUT,
@@ -71,6 +71,16 @@ public class ProductServiceImpl implements ProductService {
         productDto.setTotalProductValue(productDto.getTotalCost() * productDto.getTotalWeightOfUnits());
         ProductEntity productEntity = (ProductEntity) ObjectUtils.map(productDto, new ProductEntity());
         productRepo.save(productEntity);
+        return getAll();
+    }
+
+    @Override
+    public List<ProductDto> deleteIdById(String id) {
+        if (id == null || id.isEmpty()) {
+            throw new ServerException("Invalid Product Id was passed", Constants.INTERNAL_SERVER,
+                    "/product/delete", "deleteIdById()");
+        }
+        productRepo.deleteById(Long.valueOf(id));
         return getAll();
     }
 

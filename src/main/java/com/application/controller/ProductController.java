@@ -43,4 +43,9 @@ public class ProductController {
         return productService.createOrUpdateData(productDto, request);
     }
 
+    @DeleteMapping(path = "/{id}")
+    public List<ProductDto> deleteProductById(@PathVariable("id") String id){
+        return productService.deleteIdById(id);
+    }
+
 }
