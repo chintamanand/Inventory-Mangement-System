@@ -1,11 +1,11 @@
 package com.application.controller;
 
-import com.application.dto.CityDto;
-import com.application.dto.ProductCategoryDto;
-import com.application.dto.StateDto;
+import com.application.dto.*;
 import com.application.exception.BusinessGlobalException;
 import com.application.service.DataService;
+import com.application.service.ManufacturerService;
 import com.application.service.ProductCategoryService;
+import com.application.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +24,10 @@ public class DataController {
     private final DataService dataService;
 
     private final ProductCategoryService productCategoryService;
+
+    private final ManufacturerService manufacturerService;
+
+    private final ProductService productService;
 
     @GetMapping(path = "/getStates")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -48,6 +52,12 @@ public class DataController {
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<ProductCategoryDto> getCategory() {
         return productCategoryService.getProductCategories();
+    }
+
+    @GetMapping(path = "/getOverview")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public OverviewResponse getOverview() {
+       return dataService.getOverview();
     }
 
 }

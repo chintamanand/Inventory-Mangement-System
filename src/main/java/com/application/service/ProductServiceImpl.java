@@ -101,6 +101,7 @@ public class ProductServiceImpl implements ProductService {
         return getAll();
     }
 
+    //check this service as well.
     @Override
     public List<ProductDto> deleteIdById(String id) {
         if (id == null || id.isEmpty()) {
@@ -109,6 +110,27 @@ public class ProductServiceImpl implements ProductService {
         }
         productRepo.deleteById(Long.valueOf(id));
         return getAll();
+    }
+
+    @Override
+    public long getProductCount() {
+        return productRepo.count();
+    }
+
+    @Override
+    public ProductDto getHighestProductValue() {
+        return (ProductDto) ObjectUtils.map(productRepo.getHighestValue(), new ProductDto());
+    }
+
+    @Override
+    public ProductDto getLowestProductValue() {
+        return (ProductDto) ObjectUtils.map(productRepo.getLowestValue(), new ProductDto());
+    }
+
+    @Override
+    public long getRecentlyAddedCount() {
+        Date pastDate =  new Date(System.currentTimeMillis() - 5L * 24 * 3600 * 1000);
+        return productRepo.getRecentlyAdded(pastDate, new Date());
     }
 
 }

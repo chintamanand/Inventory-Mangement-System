@@ -1,10 +1,7 @@
 package com.application.service;
 
 import com.application.config.Constants;
-import com.application.dto.CityDto;
-import com.application.dto.ManufacturerDto;
-import com.application.dto.ProductDto;
-import com.application.dto.StateDto;
+import com.application.dto.*;
 import com.application.exception.BusinessGlobalException;
 import com.application.exception.ServerException;
 import lombok.extern.log4j.Log4j2;
@@ -42,14 +39,13 @@ public class DataServiceImpl implements DataService {
 
     @Autowired
     ManufacturerService manufacturerService;
+
     @Autowired
     ProductService productService;
+
     Comparator<StateDto> compareByStateName = Comparator.comparing(StateDto::getStateName);
     private List<StateDto> masterStateInfo = new ArrayList<>();
     private List<StateDto> indivStateDetails = new ArrayList<>();
-
-    public DataServiceImpl() {
-    }
 
     @Override
     public List<StateDto> getStates(String countryName) {
@@ -250,4 +246,25 @@ public class DataServiceImpl implements DataService {
     public Boolean isEmptyOrNull(String obj) {
         return obj == null || obj.isEmpty();
     }
+
+    @Override
+    public OverviewResponse getOverview() {
+        OverviewResponse overviewResponse = new OverviewResponse();
+        overviewResponse.setTotalManufacturerCount((int) manufacturerService.getManufacturerCount());
+        overviewResponse.setTotalProductCount((int) productService.getProductCount());
+        ProductDto productDto = productService.getHighestProductValue();
+
+        overviewResponse.setHighestProductName(productDto.getProductName());
+        overviewResponse.setHighestProductValue(productDto.getTotalProductValue());
+
+        productDto = productService.getLowestProductValue();
+        overviewResponse.setLowestProductName(productDto.getProductName());
+        overviewResponse.setLowestProductValue(productDto.getTotalProductValue());
+
+        overviewResponse.setNoOfManufacturersRecAdded((int) manufacturerService.getRecentlyAddedCount());
+        overviewResponse.setNoOfProductsRecAdded((int) productService.getRecentlyAddedCount());
+
+        return overviewResponse;
+    }
+
 }

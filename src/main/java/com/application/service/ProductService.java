@@ -15,8 +15,16 @@ public interface ProductService {
     List<ProductDto> getByProductName(String manufacturerName);
 
     List<ProductDto> createOrUpdateData(ProductDto productDto,
-                                  HttpServletRequest request) throws BusinessGlobalException;
+                                        HttpServletRequest request) throws BusinessGlobalException;
 
     List<ProductDto> deleteIdById(String id);
+
+    long getProductCount();
+
+    ProductDto getHighestProductValue();
+
+    ProductDto getLowestProductValue();
+
+    long getRecentlyAddedCount();
 
 }

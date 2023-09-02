@@ -70,4 +70,15 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         }
     }
 
+    @Override
+    public long getManufacturerCount() {
+        return manufacturerRepo.count();
+    }
+
+    @Override
+    public long getRecentlyAddedCount() {
+       Date pastDate =  new Date(System.currentTimeMillis() - 5L * 24 * 3600 * 1000);
+       return manufacturerRepo.getRecentlyAdded(pastDate, new Date());
+    }
+
 }
