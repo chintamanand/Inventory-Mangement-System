@@ -56,4 +56,9 @@ public class ManufacturerEntity implements Serializable {
     @Column
     private boolean enabled;
 
+    @Column
+    private Date updatedOn;
+
+    @Column
+    private Date createdOn;
 }

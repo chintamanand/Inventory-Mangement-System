@@ -1,15 +1,13 @@
 package com.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
-@ToString
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@ToString
 public class StateDto {
 
     @JsonProperty("city_id")

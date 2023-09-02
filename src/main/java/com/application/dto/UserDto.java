@@ -1,14 +1,14 @@
 package com.application.dto;
 
-import lombok.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class UserDto implements Serializable {
 
