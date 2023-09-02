@@ -13,4 +13,9 @@ public interface ManufacturerService {
     List<ManufacturerDto> getByManufacturerName(String manufacturerName);
 
     List<ManufacturerDto> createOrUpdateData(ManufacturerDto manufacturerDto);
+
+    long getManufacturerCount();
+
+    long getRecentlyAddedCount();
+
 }
