@@ -2,15 +2,16 @@ package com.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@Getter
-@Setter
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class ManufacturerDto implements Serializable {
 
@@ -40,6 +41,10 @@ public class ManufacturerDto implements Serializable {
     private String state;
 
     private String country;
+
+    private Date updatedOn;
+
+    private Date createdOn;
 
     @JsonIgnore
     private String privilegeCode;

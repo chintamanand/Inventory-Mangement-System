@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,8 +56,10 @@ public class ManufacturerServiceImpl implements ManufacturerService {
             throw new ServerException("Pass Valid Company Name", Constants.INTERNAL_SERVER,
                     "/create-update", "createOrUpdateData()");
         } else {
-            List<ManufacturerDto> manufacturerDtos = getByManufacturerName(manufacturerDto.getManufacturerCompanyName());
-            if (manufacturerDtos.isEmpty()) {
+            List<ManufacturerDto> manufacturerList = getByManufacturerName(manufacturerDto.getManufacturerCompanyName());
+            if (manufacturerList.isEmpty()) {
+                manufacturerDto.setCreatedOn(new Date());
+                manufacturerDto.setUpdatedOn(new Date());
                 ManufacturerEntity manufacturerEntity = (ManufacturerEntity) ObjectUtils.map(manufacturerDto, new ManufacturerEntity());
                 manufacturerRepo.save(manufacturerEntity);
                 return getAll();

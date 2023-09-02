@@ -213,6 +213,42 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Product - Create/Update",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQxIiwiaWF0IjoxNjkzNjU3MzU5LCJleHAiOjE2OTM3NDM3NTl9.okFcnqXETWSt2T3Z_ZLDVtYXbMsAL6pnQYvD-Y4AIccgO4rwNeyYkvK8sIubnrXbXwfPGjF0fGhVuxf7rLUdzg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": null,\r\n    \"manufacturerId\": \"1\",\r\n    \"productName\": \"Good Day Butter Cookies\",\r\n    \"productCategory\": \"Home & Kitchen\",\r\n    \"productDesc\": \"Home & Kitchen\",\r\n    \"noOfUnits\": \"45\",\r\n    \"weightOfUnit\": \"120\",\r\n    \"unitCost\": \"14.5\",\r\n    \"landedCost\": \"3.5\",\r\n    \"productReceived\": \"2023-08-24\",\r\n    \"productLocation\": \"Cochin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products/create-update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"create-update"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

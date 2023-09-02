@@ -1,12 +1,12 @@
 package com.application.dto;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class StockPurchaseDto implements Serializable {
 

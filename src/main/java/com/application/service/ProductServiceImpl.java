@@ -12,6 +12,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,26 +52,52 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> createOrUpdateData(ProductDto productDto, HttpServletRequest request) throws BusinessGlobalException {
-        log.info("Product info received :: " + productDto.toString());
+    public List<ProductDto> createOrUpdateData(ProductDto productRequest, HttpServletRequest request) throws BusinessGlobalException {
+        log.info("Product info received :: " + productRequest.toString());
         ManufacturerDto manufacturerDto;
-        if (productDto.getManufacturerId() == null) {
+        if (productRequest.getManufacturerId() == null) {
             throw new ServerException("Invalid Manufacturer Id", Constants.INVALID_INPUT,
                     request.getRequestURL().toString(), "Product Create Service");
         }
-        manufacturerDto = manufacturerService.getByManufacturerId(productDto.getManufacturerId());
+        manufacturerDto = manufacturerService.getByManufacturerId(productRequest.getManufacturerId());
         if (manufacturerDto == null) {
             throw new ServerException("Given ManufacturerId Not Found", Constants.INVALID_INPUT,
                     request.getRequestURL().toString(), "Product Create Service");
         }
 
-        //if we get the same product twice then we need to update it into single entry only
-        productDto.setManufacturerName(manufacturerDto.getManufacturerCompanyName());
-        productDto.setTotalCost(productDto.getLandedCost() + productDto.getUnitCost());
-        productDto.setTotalWeightOfUnits(productDto.getWeightOfUnit() * productDto.getNoOfUnits());
-        productDto.setTotalProductValue(productDto.getTotalCost() * productDto.getTotalWeightOfUnits());
-        ProductEntity productEntity = (ProductEntity) ObjectUtils.map(productDto, new ProductEntity());
-        productRepo.save(productEntity);
+        List<ProductEntity> entities = productRepo.findByManufacturerNameAndProductName(manufacturerDto.getManufacturerCompanyName(), productRequest.getProductName());
+        List<ProductDto> productDtoList = entities.stream().map(
+                        productEntity1 -> (ProductDto) ObjectUtils.map(productEntity1, new ProductDto()))
+                .collect(Collectors.toList());
+
+        ProductEntity productEntity = null;
+        if (!productDtoList.isEmpty()) {
+            for (ProductDto product1 : productDtoList) {
+                ProductDto product = new ProductDto();
+                ObjectUtils.map(productRequest, product);
+                product.setProductId(product1.getProductId());
+                product.setCreatedOn(product1.getCreatedOn());
+                product.setManufacturerName(manufacturerDto.getManufacturerCompanyName());
+                product.setTotalCost(productRequest.getLandedCost() + productRequest.getUnitCost());
+                product.setTotalWeightOfUnits(productRequest.getWeightOfUnit() * productRequest.getNoOfUnits());
+                product.setTotalProductValue(product.getTotalCost() * product.getTotalWeightOfUnits());
+                product.setEnabled(true);
+                product.setLastUpdated(new Date());
+                productEntity = (ProductEntity) ObjectUtils.map(product, new ProductEntity());
+                productRepo.save(productEntity);
+            }
+        } else {
+            productRequest.setManufacturerName(manufacturerDto.getManufacturerCompanyName());
+            productRequest.setTotalCost(productRequest.getLandedCost() + productRequest.getUnitCost());
+            productRequest.setTotalWeightOfUnits(productRequest.getWeightOfUnit() * productRequest.getNoOfUnits());
+            productRequest.setTotalProductValue(productRequest.getTotalCost() * productRequest.getTotalWeightOfUnits());
+            productRequest.setEnabled(true);
+            productRequest.setLastUpdated(new Date());
+            productRequest.setCreatedOn(new Date());
+            productEntity = (ProductEntity) ObjectUtils.map(productRequest, new ProductEntity());
+            productRepo.save(productEntity);
+        }
+
         return getAll();
     }
 

@@ -22,8 +22,6 @@ public class ManufacturerController {
     @GetMapping(path = "/get")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<ManufacturerDto> getAll(HttpServletRequest request) {
-        log.info("Entered Manufacturer GetAll Method");
-        log.info(request.toString());
         return manufacturerService.getAll();
     }
 

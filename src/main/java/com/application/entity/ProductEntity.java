@@ -11,7 +11,7 @@ import java.util.Date;
 @ToString
 public class ProductEntity implements Serializable {
 
-    //product info, origin,expiry date,
+    //product info,expiry date,
     //delivery details, serial number, product box numbers
 
     private static final long serialVersionUID = -2769127035283753892L;
@@ -65,6 +65,9 @@ public class ProductEntity implements Serializable {
 
     @Column
     private String productLocation;
+
+    @Column
+    private Date createdOn;
 
     @Column
     private Date lastUpdated;
