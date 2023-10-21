@@ -13,7 +13,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQiLCJpYXQiOjE2ODA3MTYyNDgsImV4cCI6MTY4MDgwMjY0OH0.oSrQ4GwcCRwBM_649dHabvgsgovIxsPJiATc7xAILEAPObHgkf8OPxV_nbZs3QdAg-TBzUar9qVs0foTig5rbQ",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQxIiwiaWF0IjoxNjk0ODY3OTUxLCJleHAiOjE2OTQ5NTQzNTF9.beaZdX4o3OBz_RVtOiblUq3yo_fKUiTMzMYVT6dU2tqx3MrP4lRMGG4jZ8KHfeMZUp56IIZPQ88GCwnOypar4A",
 						"type": "default"
 					}
 				],
@@ -49,12 +49,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQiLCJpYXQiOjE2Nzc5MzE1MzYsImV4cCI6MTY3ODAxNzkzNn0.CN7p_16tczh4xi8B2yfqA1D632V3RL5vwUd6gobG8ZX0g0PnXaJEYDI24dMExK2T_YRT5ZGNA-UkM4qT0SgLQA",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtS2lyYW4iLCJpYXQiOjE2OTY3NDYyMDIsImV4cCI6MTY5NjgzMjYwMn0.fVJ7EAzSEl2QN8lwUwM6s4pVkMcYjneytGur8x_xTh79F6ZGLubJyyDwRY7ZFUYtDep_C6VJCcZsI5X7JwN0UQ",
 						"type": "default"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/api/manufacturer/get/11",
+					"raw": "http://localhost:8080/api/manufacturer/get/51",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -64,7 +64,7 @@
 						"api",
 						"manufacturer",
 						"get",
-						"11"
+						"51"
 					]
 				}
 			},
@@ -80,7 +80,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQiLCJpYXQiOjE2ODA3MTYyNDgsImV4cCI6MTY4MDgwMjY0OH0.oSrQ4GwcCRwBM_649dHabvgsgovIxsPJiATc7xAILEAPObHgkf8OPxV_nbZs3QdAg-TBzUar9qVs0foTig5rbQ",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQxIiwiaWF0IjoxNjk0ODY1MzMyLCJleHAiOjE2OTQ5NTE3MzJ9.XIVDl0d7BUcpdFcCs8OGfFH1Mm2FPRWXn4FuVyjRZWHEHnKT5VGsBoFBpI6Ns8lQFHFt7Up1zEib87qNP-NwzQ",
 						"type": "default"
 					}
 				],
@@ -104,15 +104,22 @@
 			"name": "Get City Details",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtS2lyYW4iLCJpYXQiOjE2OTUxMzgwMDUsImV4cCI6MTY5NTIyNDQwNX0.mYLlSvxAp0cFwiGoVE9QtBTcz71ZefJrjBg1UaJT1vWLGEUxkY-YFw0tT1TAMPU2HnjmnMC9jUEsXq6tEhYfqQ",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/data/getCities?stateName=Andhra Pradesh",
+					"raw": "http://localhost:8080/api/data/getCities?stateName=Andhra Pradesh",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
+						"api",
 						"data",
 						"getCities"
 					],
@@ -127,13 +134,40 @@
 			"response": []
 		},
 		{
+			"name": "Get Data Overview",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQxIiwiaWF0IjoxNjk0ODY1MzMyLCJleHAiOjE2OTQ5NTE3MzJ9.XIVDl0d7BUcpdFcCs8OGfFH1Mm2FPRWXn4FuVyjRZWHEHnKT5VGsBoFBpI6Ns8lQFHFt7Up1zEib87qNP-NwzQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/data/getOverview",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"data",
+						"getOverview"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Generate Xcel Report",
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtS2lyYW4iLCJpYXQiOjE2OTE4MTU5MjYsImV4cCI6MTY5MTkwMjMyNn0._pMfYwNi8eYxoJtgOJj5WCt_8vegj8YAqkAJ7PSsxZRSDK9ITpN-7OfJLZLF7U2GKGhhwDjs84Q3RyzDJEmX3g",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQxIiwiaWF0IjoxNjk0ODY1MzMyLCJleHAiOjE2OTQ5NTE3MzJ9.XIVDl0d7BUcpdFcCs8OGfFH1Mm2FPRWXn4FuVyjRZWHEHnKT5VGsBoFBpI6Ns8lQFHFt7Up1zEib87qNP-NwzQ",
 						"type": "text"
 					}
 				],
@@ -149,6 +183,181 @@
 						"data",
 						"generateXcel",
 						"manufacturer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload File",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQzIiwiaWF0IjoxNjk1MDU5MTc2LCJleHAiOjE2OTUxNDU1NzZ9.OsO5gaWXfZ5JpfMZ0mcqgI-VbZbvMKVqmOtTeoGlQjoFzk3hjvimrdn_GSLcWkxXBLOs3C_z_pezMm727uDOKA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/chint/Downloads/Bisleri.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/data/uploadFile?manufacturerId=2&manufacturerName=Bisleri",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"data",
+						"uploadFile"
+					],
+					"query": [
+						{
+							"key": "manufacturerId",
+							"value": "2"
+						},
+						{
+							"key": "manufacturerName",
+							"value": "Bisleri"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download File",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtS2lyYW4iLCJpYXQiOjE2OTY3NDYyMDIsImV4cCI6MTY5NjgzMjYwMn0.fVJ7EAzSEl2QN8lwUwM6s4pVkMcYjneytGur8x_xTh79F6ZGLubJyyDwRY7ZFUYtDep_C6VJCcZsI5X7JwN0UQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/chint/Downloads/Bisleri.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/data/downloadFile?fileId=65225d71026adb680bbe8738",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"data",
+						"downloadFile"
+					],
+					"query": [
+						{
+							"key": "fileId",
+							"value": "65225d71026adb680bbe8738"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Manufacturer-Create/Update",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtS2lyYW4iLCJpYXQiOjE2OTY3NDYyMDIsImV4cCI6MTY5NjgzMjYwMn0.fVJ7EAzSEl2QN8lwUwM6s4pVkMcYjneytGur8x_xTh79F6ZGLubJyyDwRY7ZFUYtDep_C6VJCcZsI5X7JwN0UQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/chint/Downloads/LG.png"
+						},
+						{
+							"key": "manufacturerDto",
+							"value": "{\"manufacturerId\": 1, \"manufacturerCompanyName\":\"shsj\",\n\"companyEmailAddress\": \"ramesh@123@gmail.com\"\n}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/manufacturer/create-update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"manufacturer",
+						"create-update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download File",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQzIiwiaWF0IjoxNjk1MDU5MTc2LCJleHAiOjE2OTUxNDU1NzZ9.OsO5gaWXfZ5JpfMZ0mcqgI-VbZbvMKVqmOtTeoGlQjoFzk3hjvimrdn_GSLcWkxXBLOs3C_z_pezMm727uDOKA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/data/downloadFile?fileId=65088da9fca58047a8963785",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"data",
+						"downloadFile"
+					],
+					"query": [
+						{
+							"key": "fileId",
+							"value": "65088da9fca58047a8963785"
+						}
 					]
 				}
 			},
@@ -191,7 +400,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"ChintamAnand\",\r\n    \"password\": \"test@1234\"\r\n}",
+					"raw": "{\r\n    \"username\": \"ChintamAnand3\",\r\n    \"password\": \"anand@123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -245,6 +454,78 @@
 						"api",
 						"products",
 						"create-update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token Service",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtQW5hbmQxIiwiaWF0IjoxNjkzNjU3MzU5LCJleHAiOjE2OTM3NDM3NTl9.okFcnqXETWSt2T3Z_ZLDVtYXbMsAL6pnQYvD-Y4AIccgO4rwNeyYkvK8sIubnrXbXwfPGjF0fGhVuxf7rLUdzg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"afc26508-5d7f-49ce-9b80-ba2e6aa2b015\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/refreshtoken",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"refreshtoken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDaGludGFtS2lyYW4iLCJpYXQiOjE2OTc4ODYyOTksImV4cCI6MTY5Nzk3MjY5OX0.6fhLd2iMH-APVD3NPsqkyVaQIEWPCO8im1m7nta-ufSS6TmNo9jV4jnS6j7ZHnyBeKyHoUR2OUMLCDY0IrBAzw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orderDetails\": [\r\n        {\r\n            \"manufacturerName\": \"Britannia\",\r\n            \"productName\": \"Good Day Butter\",\r\n            \"productCategoryName\": \"Home & Kitchen\",\r\n            \"noOfUnits\": 101,\r\n            \"unitCost\": \"7\",\r\n            \"weightOfUnit\": \"1000\",\r\n            \"totalWeight\": 100,\r\n            \"productValue\": 1010\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/stock/buy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"stock",
+						"buy"
 					]
 				}
 			},

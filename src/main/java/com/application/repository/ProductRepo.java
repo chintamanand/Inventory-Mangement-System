@@ -1,6 +1,7 @@
 package com.application.repository;
 
 import com.application.entity.ProductEntity;
+import com.application.mapper.ProductResponseView;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +26,8 @@ public interface ProductRepo extends JpaRepository<ProductEntity, Long> {
     @Query(value = "SELECT COUNT(*) FROM product where created_on BETWEEN :startDate AND :endDate", nativeQuery = true)
     Long getRecentlyAdded(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
+    List<ProductEntity> findByManufacturerName(String manufacturerName);
+
+    @Query(value = "SELECT DISTINCT p.product_name as ProductName, p.product_id as ProductId FROM product p", nativeQuery = true)
+    List<ProductResponseView> getProductNames();
 }

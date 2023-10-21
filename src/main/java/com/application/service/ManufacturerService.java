@@ -1,6 +1,7 @@
 package com.application.service;
 
 import com.application.dto.ManufacturerDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,9 +13,11 @@ public interface ManufacturerService {
 
     List<ManufacturerDto> getByManufacturerName(String manufacturerName);
 
-    List<ManufacturerDto> createOrUpdateData(ManufacturerDto manufacturerDto);
+    List<ManufacturerDto> getManufacturerNames();
 
-    long getManufacturerCount();
+    List<ManufacturerDto> createOrUpdateData(String manufacturerDto, MultipartFile file);
+
+    int getManufacturerCount();
 
     long getRecentlyAddedCount();
 

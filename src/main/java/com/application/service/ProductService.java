@@ -19,12 +19,16 @@ public interface ProductService {
 
     List<ProductDto> deleteIdById(String id);
 
-    long getProductCount();
+    int getProductCount();
+
+    List<ProductDto> getProductNames();
 
     ProductDto getHighestProductValue();
 
     ProductDto getLowestProductValue();
 
     long getRecentlyAddedCount();
+
+    public List<ProductDto> getProductByManufacturerName(String manufacturerName);
 
 }

@@ -8,4 +8,6 @@ public interface ProductCategoryService {
 
     List<ProductCategoryDto> getProductCategories();
 
+    int getProductCategoryCount();
+
 }

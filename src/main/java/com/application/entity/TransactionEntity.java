@@ -5,29 +5,29 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Table(name = "stock_purchase")
+@Table(name = "transaction")
 @Entity
 @ToString
-public class StockPurchaseEntity implements Serializable {
+public class TransactionEntity implements Serializable {
 
-    //product info, no of units,cost of each unit,product belongs to which manufactutrer, origin,expiry date,
+    //origin,expiry date
     //date of received the product,delivery details, serial number, product box numbers
-    //https://material.angular.io/components/table/overview
 
     private static final long serialVersionUID = 2222593343104168066L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long purchaseId;
+    private Long transactionId;
 
-    //this has to be valid manufacturerId
+    @Column(nullable = false)
+    private String transactionType;
+
     @Column(nullable = false)
     private Long manufacturerId;
 
     @Column(nullable = false)
     private String manufacturerName;
 
-    //this has to be valid productId
     @Column(nullable = false)
     private Long productId;
 
@@ -36,6 +36,9 @@ public class StockPurchaseEntity implements Serializable {
 
     @Column(nullable = false)
     private String productCategoryName;
+
+    @Column
+    private double unitCost;
 
     @Column(nullable = false)
     private long noOfUnits;

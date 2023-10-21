@@ -8,11 +8,13 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @ToString
-public class StockPurchaseDto implements Serializable {
+public class TransactionDto implements Serializable {
 
     private static final long serialVersionUID = -2683865501922998906L;
 
-    private Long purchaseId;
+    private Long transactionId;
+
+    private String transactionType;
 
     //this has to be valid manufacturerId(nullable = false)
     private Long manufacturerId;
@@ -26,11 +28,12 @@ public class StockPurchaseDto implements Serializable {
 
     private String productCategoryName;
 
+    private double unitCost;
+
     private long noOfUnits;
 
     private double weightOfUnit;
 
-    //TotalWeight = noOfUnits * weightOfUnit
     private double totalWeight;
 
     //Amount Paid and productValue has to be same
@@ -42,12 +45,10 @@ public class StockPurchaseDto implements Serializable {
 
     private String payeeName;
 
-    private String paymentMetaInfo;
-
     private String phoneNumber;
 
     private String emailAddress;
 
-    //after payment success, add product with correct info into product table;
+    private String paymentMetaInfo;
 
 }

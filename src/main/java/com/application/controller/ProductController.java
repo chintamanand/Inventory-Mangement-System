@@ -36,6 +36,11 @@ public class ProductController {
         return productService.getByProductName(productName);
     }
 
+    @GetMapping(path = "/get/manfName")
+    public List<ProductDto> getProductByManufacturerName(@RequestParam("manufacturerName")  String manufacturerName){
+        return productService.getProductByManufacturerName(manufacturerName);
+    }
+
     @PostMapping(path = "/create-update")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<ProductDto> createOrUpdateData(@RequestBody ProductDto productDto,
