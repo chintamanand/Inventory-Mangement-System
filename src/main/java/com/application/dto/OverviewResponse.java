@@ -1,9 +1,9 @@
 package com.application.dto;
 
+import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -12,9 +12,11 @@ public class OverviewResponse implements Serializable {
 
     private static final long serialVersionUID = 2222593343104168066L;
 
-    private int totalManufacturerCount;
+    private int totalManufacturers;
 
-    private int totalProductCount;
+    private int totalProducts;
+
+    private int totalProductCategories;
 
     private String highestProductName;
 

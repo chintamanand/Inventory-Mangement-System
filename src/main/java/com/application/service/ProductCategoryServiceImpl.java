@@ -24,4 +24,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public int getProductCategoryCount(){
+        return (int)productCategoryRepo.count();
+    }
+
 }

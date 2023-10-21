@@ -2,17 +2,20 @@ package com.application.controller;
 
 import com.application.dto.*;
 import com.application.exception.BusinessGlobalException;
-import com.application.service.DataService;
-import com.application.service.ManufacturerService;
-import com.application.service.ProductCategoryService;
-import com.application.service.ProductService;
+import com.application.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,9 +28,7 @@ public class DataController {
 
     private final ProductCategoryService productCategoryService;
 
-    private final ManufacturerService manufacturerService;
-
-    private final ProductService productService;
+    private final MongoFileService mongoFileService;
 
     @GetMapping(path = "/getStates")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -57,7 +58,24 @@ public class DataController {
     @GetMapping(path = "/getOverview")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public OverviewResponse getOverview() {
-       return dataService.getOverview();
+        return dataService.getOverview();
+    }
+
+    @PostMapping(path = "/uploadFile")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public String uploadFile(@RequestParam("file") MultipartFile file, @Param("manufacturerId") int manufacturerId,
+                             @Param("manufacturerName") String manufacturerName) throws IOException {
+        return mongoFileService.addFile(file, manufacturerId, manufacturerName);
+    }
+
+    @GetMapping(path = "/downloadFile")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<ByteArrayResource> downloadFile(@Param("fileId") String fileId) throws IOException {
+        LoadFile loadFile = mongoFileService.downloadFile(fileId);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(loadFile.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + loadFile.getFilename() + "\"")
+                .body(new ByteArrayResource(loadFile.getFile()));
     }
 
 }

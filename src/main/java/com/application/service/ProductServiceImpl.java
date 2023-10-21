@@ -52,6 +52,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductDto> getProductNames() {
+        return productRepo.getProductNames().stream().map(
+                        productEntity -> (ProductDto) ObjectUtils.map(productEntity, new ProductDto()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> getProductByManufacturerName(String manufacturerName) {
+        return productRepo.findByManufacturerName(manufacturerName).stream().map(
+                        productEntity -> (ProductDto) ObjectUtils.map(productEntity, new ProductDto()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<ProductDto> createOrUpdateData(ProductDto productRequest, HttpServletRequest request) throws BusinessGlobalException {
         log.info("Product info received :: " + productRequest.toString());
         ManufacturerDto manufacturerDto;
@@ -77,10 +91,10 @@ public class ProductServiceImpl implements ProductService {
                 ObjectUtils.map(productRequest, product);
                 product.setProductId(product1.getProductId());
                 product.setCreatedOn(product1.getCreatedOn());
-                product.setManufacturerName(manufacturerDto.getManufacturerCompanyName());
                 product.setTotalCost(productRequest.getLandedCost() + productRequest.getUnitCost());
-                product.setTotalWeightOfUnits(productRequest.getWeightOfUnit() * productRequest.getNoOfUnits());
-                product.setTotalProductValue(product.getTotalCost() * product.getTotalWeightOfUnits());
+                product.setNoOfUnits(productRequest.getNoOfUnits() + product1.getNoOfUnits());
+                product.setTotalWeightOfUnits(productRequest.getWeightOfUnit() * product.getNoOfUnits()/1000);
+                product.setTotalProductValue(product.getTotalCost() * product.getNoOfUnits());
                 product.setEnabled(true);
                 product.setLastUpdated(new Date());
                 productEntity = (ProductEntity) ObjectUtils.map(product, new ProductEntity());
@@ -89,8 +103,8 @@ public class ProductServiceImpl implements ProductService {
         } else {
             productRequest.setManufacturerName(manufacturerDto.getManufacturerCompanyName());
             productRequest.setTotalCost(productRequest.getLandedCost() + productRequest.getUnitCost());
-            productRequest.setTotalWeightOfUnits(productRequest.getWeightOfUnit() * productRequest.getNoOfUnits());
-            productRequest.setTotalProductValue(productRequest.getTotalCost() * productRequest.getTotalWeightOfUnits());
+            productRequest.setTotalWeightOfUnits(productRequest.getWeightOfUnit() * productRequest.getNoOfUnits()/1000);
+            productRequest.setTotalProductValue(productRequest.getTotalCost() * productRequest.getNoOfUnits());
             productRequest.setEnabled(true);
             productRequest.setLastUpdated(new Date());
             productRequest.setCreatedOn(new Date());
@@ -101,7 +115,6 @@ public class ProductServiceImpl implements ProductService {
         return getAll();
     }
 
-    //check this service as well.
     @Override
     public List<ProductDto> deleteIdById(String id) {
         if (id == null || id.isEmpty()) {
@@ -113,8 +126,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public long getProductCount() {
-        return productRepo.count();
+    public int getProductCount() {
+        return (int)productRepo.count();
     }
 
     @Override

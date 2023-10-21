@@ -1,5 +1,6 @@
 package com.application.entity;
 
+import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Date;
 @Table(name = "manufacturer")
 @Entity
 @ToString
+@Data
 public class ManufacturerEntity implements Serializable {
 
     private static final long serialVersionUID = 8908299509371222908L;
@@ -61,4 +63,7 @@ public class ManufacturerEntity implements Serializable {
 
     @Column
     private Date createdOn;
+
+    @Column
+    private String fileId;
 }

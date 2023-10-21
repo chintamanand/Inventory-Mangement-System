@@ -12,6 +12,13 @@ public class Constants {
     public static final String REGISTER_USER_METHOD = "RegisterUser()";
     public static final String PLACE_ORDER_METHOD = "PlaceOrder Service";
     public static final String XCEL_SERVICE = "generateXcelSheet Service";
+    public static final String GEN_XCEL_URL = "/data/generateXcel";
+    public static final String MANF_CREATE_URL = "/create-update";
+    public static final String MANF_CREATE_METHOD = "createOrUpdateData()";
+    public static final String BUY_ORDER = "BUY_ORDER";
+    public static final String SELL_ORDER = "SELL_ORDER";
+    public static final String ONLINE_PAYMENT = "ONLINE";
+    public static final String PAYEE_NAME = "Chintam Anand";
 
     public enum ERole {
         ROLE_USER,

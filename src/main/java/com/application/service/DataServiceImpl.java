@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,6 +43,9 @@ public class DataServiceImpl implements DataService {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    ProductCategoryService productCategoryService;
 
     Comparator<StateDto> compareByStateName = Comparator.comparing(StateDto::getStateName);
     private List<StateDto> masterStateInfo = new ArrayList<>();
@@ -82,8 +86,6 @@ public class DataServiceImpl implements DataService {
             csvParser.close();
         } catch (Exception e) {
             log.info("Error has occurred while parsing the CSV file");
-            /*throw new ServerException("Error has occurred while parsing the CSV file", Constants.INTERNAL_SERVER,
-                    "data/getCities", Constants.XCEL_SERVICE);*/
         }
         return masterStateInfo;
     }
@@ -105,7 +107,7 @@ public class DataServiceImpl implements DataService {
         log.info("Entered the getCities() method -- " + stateName);
         List<CityDto> cities = new ArrayList<>();
         if (masterStateInfo.isEmpty()) {
-            masterStateInfo = getStates("India");
+            indivStateDetails = getStates("India");
         }
 
         List<StateDto> stateList = masterStateInfo.stream()
@@ -124,6 +126,7 @@ public class DataServiceImpl implements DataService {
     @Override
     public ResponseEntity<Resource> generateXcelSheet(String dataType, HttpServletRequest request)
             throws BusinessGlobalException {
+        log.info("Entered Generate Xcel Sheet Method()");
         if (dataType == null || dataType.isEmpty()) {
             throw new ServerException("Input DataType is Invalid", Constants.INVALID_INPUT,
                     request.getRequestURL().toString(), Constants.XCEL_SERVICE);
@@ -172,7 +175,7 @@ public class DataServiceImpl implements DataService {
                     .body(resource);
 
             if (file.exists()) {
-                file.delete();
+                Files.delete(file.toPath());
             }
 
             return responseEntity;
@@ -183,7 +186,7 @@ public class DataServiceImpl implements DataService {
 
     }
 
-    private XSSFSheet setXcelHeaderRow(Class c, XSSFSheet spreadsheet) {
+    private XSSFSheet setXcelHeaderRow(Class<? extends Serializable> c, XSSFSheet spreadsheet) {
         XSSFRow row = spreadsheet.createRow(0);
         int cellCount = 0;
         Field[] fields = c.getDeclaredFields();
@@ -195,11 +198,11 @@ public class DataServiceImpl implements DataService {
         return spreadsheet;
     }
 
-    private XSSFSheet setXcelData(Class c, int dataSize, XSSFSheet spreadsheet, List<Object> data1) {
+    private XSSFSheet setXcelData(Class<? extends Serializable> c, int dataSize, XSSFSheet spreadsheet, List<Object> data1) {
         ArrayList data = (ArrayList) data1.get(0);
         if (data == null || data.isEmpty()) {
             throw new ServerException("Invalid Data", Constants.SERVICE_ERROR,
-                    "/data/generateXcel", "Setting Xcel Data");
+                    Constants.GEN_XCEL_URL, "Setting XCEL Data");
         }
 
         for (int rowNo = 0; rowNo < dataSize; rowNo++) {
@@ -211,7 +214,7 @@ public class DataServiceImpl implements DataService {
                 try {
                     if (data.get(rowNo) == null) {
                         throw new ServerException("Invalid Row Data", Constants.SERVICE_ERROR,
-                                "/data/generateXcel", "Setting Xcel Data");
+                                Constants.GEN_XCEL_URL, "Setting Xcel Data");
                     }
                     if (data.get(rowNo) instanceof ManufacturerDto && cellNo < fields.length - 1) {
                         ManufacturerDto manufacturerDto = (ManufacturerDto) data.get(rowNo);
@@ -234,7 +237,7 @@ public class DataServiceImpl implements DataService {
                     }
                 } catch (Exception e) {
                     throw new ServerException("Generating Xcel Service failed", Constants.SERVICE_ERROR,
-                            "/data/generateXcel", "setXcelData Method");
+                            Constants.GEN_XCEL_URL, "setXcelData Method");
                 }
 
             }
@@ -243,15 +246,12 @@ public class DataServiceImpl implements DataService {
         return spreadsheet;
     }
 
-    public Boolean isEmptyOrNull(String obj) {
-        return obj == null || obj.isEmpty();
-    }
-
     @Override
     public OverviewResponse getOverview() {
         OverviewResponse overviewResponse = new OverviewResponse();
-        overviewResponse.setTotalManufacturerCount((int) manufacturerService.getManufacturerCount());
-        overviewResponse.setTotalProductCount((int) productService.getProductCount());
+        overviewResponse.setTotalManufacturers(manufacturerService.getManufacturerCount());
+        overviewResponse.setTotalProducts(productService.getProductCount());
+        overviewResponse.setTotalProductCategories(productCategoryService.getProductCategoryCount());
         ProductDto productDto = productService.getHighestProductValue();
 
         overviewResponse.setHighestProductName(productDto.getProductName());

@@ -4,8 +4,10 @@ import com.application.dto.ManufacturerDto;
 import com.application.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -37,10 +39,11 @@ public class ManufacturerController {
         return manufacturerService.getByManufacturerName(name);
     }
 
-    @PostMapping(path = "/create-update")
+    @PostMapping(path = "/create-update", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public List<ManufacturerDto> createOrUpdateData(@RequestBody ManufacturerDto manufacturerDto) {
-        return manufacturerService.createOrUpdateData(manufacturerDto);
+    public List<ManufacturerDto> createOrUpdateData(@RequestPart("manufacturerDto") String manufacturerDto,
+                                                    @RequestPart("file") MultipartFile file) {
+        return manufacturerService.createOrUpdateData(manufacturerDto, file);
     }
 
 }

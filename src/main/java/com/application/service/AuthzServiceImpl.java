@@ -2,13 +2,12 @@ package com.application.service;
 
 import com.application.config.Constants;
 import com.application.config.JwtUtils;
-import com.application.dto.JwtResponse;
-import com.application.dto.LoginRequest;
-import com.application.dto.MessageResponse;
-import com.application.dto.SignupRequest;
+import com.application.dto.*;
+import com.application.entity.RefreshToken;
 import com.application.entity.RoleEntity;
 import com.application.entity.UserEntity;
 import com.application.exception.ServerException;
+import com.application.mapper.ObjectUtils;
 import com.application.repository.RoleRepository;
 import com.application.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -21,7 +20,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.List;
@@ -49,13 +47,16 @@ public class AuthzServiceImpl implements AuthzService {
     @Autowired
     private DataService dataService;
 
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
     @Override
     public ResponseEntity<?> authenticateUser(LoginRequest loginRequest, HttpServletRequest fullRequest) {
         log.info("Entered into signIn Method()");
         log.info("Login Request body -- " + loginRequest.toString());
         Authentication authentication;
         try {
-            if (dataService.isEmptyOrNull(loginRequest.getUsername()) || dataService.isEmptyOrNull(loginRequest.getPassword())) {
+            if (ObjectUtils.isEmptyOrNull(loginRequest.getUsername()) || ObjectUtils.isEmptyOrNull(loginRequest.getPassword())) {
                 throw new ServerException("Invalid UserName and Password", Constants.INTERNAL_SERVER,
                         fullRequest.getRequestURL().toString(), "authenticateUser()");
             } else {
@@ -74,7 +75,8 @@ public class AuthzServiceImpl implements AuthzService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwtToken, userDetails.getId(), userDetails.getUsername(),
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+        return ResponseEntity.ok(new JwtResponse(jwtToken, refreshToken.getToken(), userDetails.getId(), userDetails.getUsername(),
                 userDetails.getEmail(), roles, "LoggedIn Successfully!"));
     }
 
@@ -84,7 +86,7 @@ public class AuthzServiceImpl implements AuthzService {
         log.info("SignUpRequest -- " + signUpRequest.toString());
         log.info("Http Servlet Request -- " + fullRequest.toString());
 
-        if (dataService.isEmptyOrNull(signUpRequest.getUsername()) || dataService.isEmptyOrNull(signUpRequest.getEmail())) {
+        if (ObjectUtils.isEmptyOrNull(signUpRequest.getUsername()) || ObjectUtils.isEmptyOrNull(signUpRequest.getEmail())) {
             throw new ServerException("Invalid UserName/Email", Constants.INTERNAL_SERVER,
                     fullRequest.getRequestURL().toString(), "registerUser()");
         }
@@ -155,6 +157,20 @@ public class AuthzServiceImpl implements AuthzService {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!", 0, ""));
+    }
+
+    @Override
+    public ResponseEntity<?> refreshToken(TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+        return refreshTokenService.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+                })
+                .orElseThrow(() -> new ServerException(requestRefreshToken,
+                        "Refresh token is not in database!"));
     }
 
 }

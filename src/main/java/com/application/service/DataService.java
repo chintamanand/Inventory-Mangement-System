@@ -18,8 +18,6 @@ public interface DataService {
 
     ResponseEntity<Resource> generateXcelSheet(String dataType, HttpServletRequest request) throws BusinessGlobalException;
 
-    Boolean isEmptyOrNull(String obj);
-
     OverviewResponse getOverview();
 
 }

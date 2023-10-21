@@ -5,20 +5,22 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 public class ObjectUtils {
 
-    @Bean
-    public static ModelMapper modelMapper() {
-        ModelMapper modelMapper= new ModelMapper();
-        modelMapper.getConfiguration().setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
-                .setFieldMatchingEnabled(true).setPropertyCondition(context ->
-                !(context.getSource() instanceof PersistentCollection)
-        );
-        return modelMapper;
+    ObjectUtils() {
     }
 
-    ObjectUtils() {
+    @Bean
+    public static ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE)
+                .setFieldMatchingEnabled(true).setPropertyCondition(context ->
+                        !(context.getSource() instanceof PersistentCollection)
+                );
+        return modelMapper;
     }
 
     /**
@@ -28,12 +30,20 @@ public class ObjectUtils {
      * @param destination object to map to
      */
     public static Object map(Object source, Object destination) {
-        if(source == null){
+        if (source == null) {
             return null;
         }
 
         modelMapper().map(source, destination);
         return destination;
+    }
+
+    public static Boolean listIsEmpty(List<? extends Object> data) {
+        return data == null || data.isEmpty();
+    }
+
+    public static Boolean isEmptyOrNull(String obj) {
+        return obj == null || obj.isEmpty();
     }
 
 }
