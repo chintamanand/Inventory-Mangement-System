@@ -472,7 +472,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"refreshToken\": \"afc26508-5d7f-49ce-9b80-ba2e6aa2b015\"\r\n}",
+					"raw": "{\r\n    \"refreshToken\": \""\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
