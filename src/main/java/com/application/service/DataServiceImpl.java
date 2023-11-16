@@ -55,7 +55,7 @@ public class DataServiceImpl implements DataService {
     public List<StateDto> getStates(String countryName) {
         log.info("Entered the getStates Method - " + countryName);
         if (masterStateInfo.isEmpty()) {
-            masterStateInfo = parseCsvFile();
+            masterStateInfo = parseCsvFile(countryName);
             return sortStateList();
         } else {
             if (indivStateDetails.isEmpty()) {
@@ -66,7 +66,7 @@ public class DataServiceImpl implements DataService {
         }
     }
 
-    private List<StateDto> parseCsvFile() {
+    private List<StateDto> parseCsvFile(String countryName) {
         Resource resource = new ClassPathResource("cities.csv");
         try {
             CSVParser csvParser = new CSVParser(new FileReader(resource.getFile()), CSVFormat.DEFAULT
@@ -74,8 +74,7 @@ public class DataServiceImpl implements DataService {
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
-                if (csvRecord.get("country_code").equalsIgnoreCase("IN") &&
-                        csvRecord.get("country_name").equalsIgnoreCase("India")) {
+                if (csvRecord.get("country_name").equalsIgnoreCase(countryName)) {
                     StateDto stateDto = new StateDto(Long.parseLong(csvRecord.get("Id")), csvRecord.get("name"),
                             Long.parseLong(csvRecord.get("state_id")), csvRecord.get("state_code"), csvRecord.get("state_name"),
                             Long.parseLong(csvRecord.get("country_id")), csvRecord.get("country_code"), csvRecord.get("country_name"),

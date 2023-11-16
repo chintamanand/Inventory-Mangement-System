@@ -24,7 +24,6 @@ public class ProductCategoryEntity implements Serializable {
     private Date lastUpdatedAt;
 
     // navigate to view after successfully save..
-    // create/get  product category information from  fixed table..
     // transaction -> two option --  Purchase(Stock Purchase, Payment, Invoice and Email Generation, Daily report) & Sale(Sale of Stock)
     
 }
