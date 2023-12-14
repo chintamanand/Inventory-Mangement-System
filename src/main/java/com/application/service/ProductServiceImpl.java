@@ -89,14 +89,15 @@ public class ProductServiceImpl implements ProductService {
             for (ProductDto product1 : productDtoList) {
                 ProductDto product = new ProductDto();
                 ObjectUtils.map(productRequest, product);
+                product.setManufacturerName(manufacturerDto.getManufacturerCompanyName());
                 product.setProductId(product1.getProductId());
                 product.setCreatedOn(product1.getCreatedOn());
                 product.setTotalCost(productRequest.getLandedCost() + productRequest.getUnitCost());
                 product.setNoOfUnits(productRequest.getNoOfUnits() + product1.getNoOfUnits());
                 product.setTotalWeightOfUnits(productRequest.getWeightOfUnit() * product.getNoOfUnits()/1000);
                 product.setTotalProductValue(product.getTotalCost() * product.getNoOfUnits());
+                product.setProductLocation(Constants.HYD);
                 product.setEnabled(true);
-                product.setLastUpdated(new Date());
                 productEntity = (ProductEntity) ObjectUtils.map(product, new ProductEntity());
                 productRepo.save(productEntity);
             }

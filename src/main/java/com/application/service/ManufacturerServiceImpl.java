@@ -71,6 +71,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         } else {
             List<ManufacturerDto> manufacturerList = getByManufacturerName(manufacturerDto.getManufacturerCompanyName());
             if (manufacturerList.isEmpty()) {
+                manufacturerDto.setEnabled(true);
                 manufacturerDto.setCreatedOn(new Date());
                 manufacturerDto.setUpdatedOn(new Date());
                 ManufacturerEntity manufacturerEntity = (ManufacturerEntity) ObjectUtils.map(manufacturerDto, new ManufacturerEntity());

@@ -80,12 +80,17 @@ public class TransactionServiceImpl implements TransactionService {
             transactionDto.setProductCategoryName(transactionDto.getProductCategoryName());
             transactionDto.setTotalWeight(transactionDto.getTotalWeight());
             transactionDto.setProductValue(transactionDto.getProductValue());
+            transactionDto.setAmountPaid(transactionDto.getProductValue());
             transactionDto.setPaymentMethod(Constants.ONLINE_PAYMENT);
             transactionDto.setPayeeName(Constants.PAYEE_NAME);
 
             saveProductData(transactionDto, request);
             TransactionEntity transactionEntity = (TransactionEntity) ObjectUtils.map(transactionDto, new TransactionEntity());
-            transactionEntity = transactionRepo.save(transactionEntity);
+            try {
+                transactionEntity = transactionRepo.save(transactionEntity);
+            } catch (Exception e) {
+                log.info(e.getMessage());
+            }
             orderResponse.add((TransactionDto) ObjectUtils.map(transactionEntity, new TransactionDto()));
         }
 
@@ -134,7 +139,7 @@ public class TransactionServiceImpl implements TransactionService {
         return productNames.get(productName);
     }
 
-    public ProductDto saveProductData(TransactionDto transactionDto, HttpServletRequest request){
+    public ProductDto saveProductData(TransactionDto transactionDto, HttpServletRequest request) {
         ProductDto productDto = new ProductDto();
         ObjectUtils.map(transactionDto, productDto);
         productDto.setLandedCost(0.0);

@@ -19,6 +19,7 @@ public class Constants {
     public static final String SELL_ORDER = "SELL_ORDER";
     public static final String ONLINE_PAYMENT = "ONLINE";
     public static final String PAYEE_NAME = "Chintam Anand";
+    public static final String HYD = "Hyderabad";
 
     public enum ERole {
         ROLE_USER,
