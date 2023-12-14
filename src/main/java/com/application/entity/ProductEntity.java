@@ -4,6 +4,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 @Table(name = "product")
@@ -11,8 +12,8 @@ import java.util.Date;
 @ToString
 public class ProductEntity implements Serializable {
 
-    //product info,expiry date,
-    //delivery details, serial number, product box numbers
+    //product Received Date,origin,expiry date
+    //delivery details, serial number, product box numbers,expiry Date
 
     private static final long serialVersionUID = -2769127035283753892L;
 
@@ -78,4 +79,10 @@ public class ProductEntity implements Serializable {
     @Column
     private boolean enabled;
 
+    public static Date addMonths(Date date, int months) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, months);
+        return cal.getTime();
+    }
 }

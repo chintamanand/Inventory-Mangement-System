@@ -1,17 +1,22 @@
 package com.application.entity;
 
-import lombok.ToString;
+import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Table(name = "transaction")
 @Entity
-@ToString
+@Data
+@EntityListeners(AuditingEntityListener.class)
 public class TransactionEntity implements Serializable {
 
-    //origin,expiry date
-    //date of received the product,delivery details, serial number, product box numbers
+    //delivery details, serial number, product box numbers
+    //after payment success, add product with correct info into product table;
 
     private static final long serialVersionUID = 2222593343104168066L;
 
@@ -72,6 +77,40 @@ public class TransactionEntity implements Serializable {
     @Column
     private String emailAddress;
 
-    //after payment success, add product with correct info into product table;
+    @CreatedDate
+    private Date createdOn;
+
+    @LastModifiedDate
+    private Date lastModifiedDate;
+
+    @Column
+    private String operation;
+
+    @PrePersist
+    public void OnPrePersist() {
+        System.out.println("Product Data Saving...");
+        System.out.println(this);
+        audit("SAVE");
+    }
+
+    @PreUpdate
+    public void OnPreUpdate() {
+        System.out.println("Product Data is been Updating...");
+        audit("UPDATE");
+    }
+
+    @PreRemove
+    public void onPreRemove() {
+        System.out.println("Product Data is been Removing...");
+        audit("DELETE");
+    }
+
+    private void audit(String operation) {
+        this.setOperation(operation);
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
 
 }
